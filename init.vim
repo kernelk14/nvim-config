@@ -1,10 +1,12 @@
 " Settings {{{
 set termguicolors
-set number
+set relativenumber
+set nu
 set ts=4
 set sw=4
 set sts=4
 set autoindent
+set nohlsearch
 filetype indent on
 colorscheme onehalfdark
 set foldmarker={{{,}}}
@@ -67,9 +69,9 @@ print("Welcome!!!")
 END
 " }}}
 " Miscellaneous Settings {{{
-setlocal foldmethod=marker
+set foldmethod=marker
 set nofoldenable
-set foldlevel=99
+set foldlevel=1
 let g:multi_cursor_use_default_mapping=0
 
 " Default mapping
@@ -77,7 +79,7 @@ let g:multi_cursor_start_word_key      = '<C-n>'
 let g:multi_cursor_select_all_word_key = '<A-n>'
 let g:multi_cursor_start_key           = '<C-f>'
 let g:multi_cursor_select_all_key      = 'g<A-n>'
-let g:multi_cursor_next_key            = '<C-n>'
+let g:multi_cursor_next_key            = '<C-S-n>'
 let g:multi_cursor_prev_key            = '<C-p>'
 let g:multi_cursor_skip_key            = '<C-x>'
 let g:multi_cursor_quit_key            = '<Esc>'
@@ -90,14 +92,14 @@ nnoremap <leader>ff <cmd>Telescope find_files<cr>
 nnoremap <leader>gg <cmd>Neogit<cr>
 nnoremap <leader>so <cmd>so %<cr>
 nnoremap <leader>s <cmd>w<cr>
-nnoremap <leader>sq <cmd>wq<cr>
-nnoremap <leader>q <cmd>q<cr>
-nnoremap <leader>qq <cmd>q!<cr>
+nnoremap <leader>se <cmd>wq<cr>
+nnoremap <leader>e <cmd>q<cr>
+nnoremap <leader>ee <cmd>q!<cr>
 nnoremap <leader>ps <cmd>lua require('telescope.builtin').grep_string({ search = vim.fn.input("Grep For > ")})<cr>
 " These commands will navigate through buffers in order regardless of which mode you are using
 " e.g. if you change the order of buffers :bnext and :bprevious will not respect the custom ordering
-nnoremap <leader>k <cmd>BufferLineCycleNext<CR>
-nnoremap <leader>j <cmd>BufferLineCyclePrev<CR>
+nnoremap } <cmd>BufferLineCycleNext<CR>
+nnoremap { <cmd>BufferLineCyclePrev<CR>
 
 " These commands will move the current buffer backwards or forwards in the bufferline
 nnoremap <leader>l <cmd>BufferLineMoveNext<CR>
