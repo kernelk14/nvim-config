@@ -1,3 +1,4 @@
+" Settings {{{
 set termguicolors
 set number
 set ts=4
@@ -6,7 +7,9 @@ set sts=4
 set autoindent
 filetype indent on
 colorscheme onehalfdark
-
+set foldmarker={{{,}}}
+" }}}
+" Plugins {{{
 " Plugins will be downloaded under the specified directory.
 call plug#begin(has('nvim') ? stdpath('data') . '/plugged' : '~/.vim/plugged')
 
@@ -43,7 +46,8 @@ Plug 'nvim-telescope/telescope.nvim'
 " Plug 'ms-jpq/chadtree'
 " List ends here. Plugins become visible to Vim after this call.
 call plug#end()
-
+" }}}
+" Lua Scripts {{{
 lua << END
 require('lualine').setup()
 -- require('lspconfig').pyls.setup{on_attach=require'completion'.on_attach}
@@ -52,22 +56,31 @@ require('lspconfig').grammarly.setup{}
 print("Welcome!!!")
 -- git.command: 'git'
 END
-"
+" }}}
+" Miscellaneous Settings {{{
+setlocal foldmethod=marker
+set nofoldenable
+set foldlevel=99
 let g:multi_cursor_use_default_mapping=0
 
 " Default mapping
 let g:multi_cursor_start_word_key      = '<C-n>'
 let g:multi_cursor_select_all_word_key = '<A-n>'
-let g:multi_cursor_start_key           = 'g<C-n>'
+let g:multi_cursor_start_key           = '<C-f>'
 let g:multi_cursor_select_all_key      = 'g<A-n>'
 let g:multi_cursor_next_key            = '<C-n>'
 let g:multi_cursor_prev_key            = '<C-p>'
 let g:multi_cursor_skip_key            = '<C-x>'
 let g:multi_cursor_quit_key            = '<Esc>'
+" }}}
+" Remappings {{{
+let mapleader=" "
 nnoremap <silent> <leader> :WhichKey '<Space>'<CR>
 set timeoutlen=500
-let mapleader=" "
 nnoremap <leader>ff <cmd>Telescope find_files<cr>
 nnoremap <leader>gg <cmd>Neogit<cr>
-nnoremap <leader>ss <cmd>so %<cr>
+nnoremap <leader>so <cmd>so %<cr>
+nnoremap <leader>s <cmd>w<cr>
+nnoremap <leader>ps <cmd>lua require('telescope.builtin').grep_string({ search = vim.fn.input("Grep For > ")})<cr>
+" }}}
 " let v:insertmode				       = '<C-i>'
