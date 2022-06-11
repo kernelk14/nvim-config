@@ -27,6 +27,7 @@ Plug 'Iron-E/nvim-libmodal'
 Plug 'Iron-E/nvim-marktext'
 Plug 'plasticboy/vim-markdown'
 " Plug 'neoclide/coc.nvim'
+Plug 'akinsho/bufferline.nvim', { 'tag': 'v2.*' }
 " Plug 'glepnir/dashboard-nvim'
 Plug 'nvim-telescope/telescope.nvim'
 Plug 'TimUntersberger/neofs'
@@ -40,6 +41,7 @@ Plug 'terryma/vim-multiple-cursors'
 Plug 'folke/which-key.nvim'
 " If you want to have icons in your statusline choose one of these
 " Plug 'ycm-core/YouCompleteMe'
+Plug 'lukas-reineke/indent-blankline.nvim'
 Plug 'kyazdani42/nvim-web-devicons'
 Plug 'prabirshrestha/vim-lsp'
 Plug 'nvim-telescope/telescope.nvim'
@@ -52,7 +54,14 @@ lua << END
 require('lualine').setup()
 -- require('lspconfig').pyls.setup{on_attach=require'completion'.on_attach}
 require('lspconfig').pyright.setup{}
+require("bufferline").setup{}
 require('lspconfig').grammarly.setup{}
+vim.opt.list = true
+vim.opt.listchars:append("eol:↴")
+
+require("indent_blankline").setup {
+    show_end_of_line = true,
+}
 print("Welcome!!!")
 -- git.command: 'git'
 END
@@ -81,6 +90,23 @@ nnoremap <leader>ff <cmd>Telescope find_files<cr>
 nnoremap <leader>gg <cmd>Neogit<cr>
 nnoremap <leader>so <cmd>so %<cr>
 nnoremap <leader>s <cmd>w<cr>
+nnoremap <leader>sq <cmd>wq<cr>
+nnoremap <leader>q <cmd>q<cr>
+nnoremap <leader>qq <cmd>q!<cr>
 nnoremap <leader>ps <cmd>lua require('telescope.builtin').grep_string({ search = vim.fn.input("Grep For > ")})<cr>
+" These commands will navigate through buffers in order regardless of which mode you are using
+" e.g. if you change the order of buffers :bnext and :bprevious will not respect the custom ordering
+nnoremap <leader>k <cmd>BufferLineCycleNext<CR>
+nnoremap <leader>j <cmd>BufferLineCyclePrev<CR>
+
+" These commands will move the current buffer backwards or forwards in the bufferline
+nnoremap <leader>l <cmd>BufferLineMoveNext<CR>
+nnoremap <leader>h <cmd>BufferLineMovePrev<CR>
+
+" These commands will sort buffers by directory, language, or a custom criteria
+nnoremap <leader>le :BufferLineSortByExtension<CR>
+nnoremap <leader>ld :BufferLineSortByDirectory<CR>
+nnoremap <leader>bs :lua require'bufferline'.sort_buffers_by(function (buf_a, buf_b) return buf_a.id < buf_b.id end)<CR>
+nnoremap <leader>bd :bd<cr>
 " }}}
 " let v:insertmode				       = '<C-i>'
