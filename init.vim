@@ -8,8 +8,10 @@ set sts=4
 set autoindent
 set nohlsearch
 filetype indent on
+set cursorline
 colorscheme onehalfdark
 set foldmarker={{{,}}}
+set expandtab
 " }}}
 " Plugins {{{
 " Plugins will be downloaded under the specified directory.
@@ -22,13 +24,15 @@ call plug#begin(has('nvim') ? stdpath('data') . '/plugged' : '~/.vim/plugged')
 Plug 'liuchengxu/vim-which-key', { 'on': ['WhichKey', 'WhichKey!'] }
 Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
 Plug 'AckslD/nvim-whichkey-setup.lua'
+Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-sensible'
 Plug 'junegunn/seoul256.vim'
 Plug 'sainnhe/sonokai'
+Plug 'gruvbox-community/gruvbox'
 Plug 'Iron-E/nvim-libmodal'
 Plug 'Iron-E/nvim-marktext'
 Plug 'plasticboy/vim-markdown'
-" Plug 'neoclide/coc.nvim'
+Plug 'neoclide/coc.nvim'
 Plug 'akinsho/bufferline.nvim', { 'tag': 'v2.*' }
 " Plug 'glepnir/dashboard-nvim'
 Plug 'nvim-telescope/telescope.nvim'
@@ -41,13 +45,19 @@ Plug 'nvim-lualine/lualine.nvim'
 Plug 'neovim/nvim-lspconfig'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'folke/which-key.nvim'
+" Plug 'f-person/git-blame.nvim'
+Plug 'lewis6991/gitsigns.nvim'
 " If you want to have icons in your statusline choose one of these
 " Plug 'ycm-core/YouCompleteMe'
 Plug 'lukas-reineke/indent-blankline.nvim'
 Plug 'kyazdani42/nvim-web-devicons'
 Plug 'prabirshrestha/vim-lsp'
 Plug 'nvim-telescope/telescope.nvim'
-" Plug 'ms-jpq/chadtree'
+Plug 'ms-jpq/chadtree'
+Plug 'simrat39/rust-tools.nvim'
+Plug 'mfussenegger/nvim-dap'
+Plug 'rust-analyzer/rust-analyzer'
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 " List ends here. Plugins become visible to Vim after this call.
 call plug#end()
 " }}}
@@ -57,18 +67,32 @@ require('lualine').setup()
 -- require('lspconfig').pyls.setup{on_attach=require'completion'.on_attach}
 require('lspconfig').pyright.setup{}
 require("bufferline").setup{}
-require('lspconfig').grammarly.setup{}
+require('gitsigns').setup()
+-- require('lspconfig').grammarly.setup{}
 vim.opt.list = true
 vim.opt.listchars:append("eol:↴")
 
 require("indent_blankline").setup {
-    show_end_of_line = true,
+    show_end_of_line = false,
 }
-print("Welcome!!!")
+require('rust-tools').setup({})
+
+--require'nvim-treesitter.configs'.setup {
+--  highlight = {
+--   enable = true,
+    -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
+    -- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
+    -- Using this option may slow down your editor, and you may see some duplicate highlights.
+    -- Instead of true it can also be a list of languages
+--    additional_vim_regex_highlighting = false,
+--  },
+--}
+-- print ("Welcome!!!")
+
 -- git.command: 'git'
 END
 " }}}
-" Miscellaneous Settings {{{
+" Other Settings {{{
 set foldmethod=marker
 set nofoldenable
 set foldlevel=1
@@ -85,8 +109,8 @@ let g:multi_cursor_skip_key            = '<C-x>'
 let g:multi_cursor_quit_key            = '<Esc>'
 " }}}
 " Remappings {{{
-let mapleader=" "
-nnoremap <silent> <leader> :WhichKey '<Space>'<CR>
+let mapleader=";"
+nnoremap <silent> <leader> :WhichKey <space> <CR>
 set timeoutlen=500
 nnoremap <leader>ff <cmd>Telescope find_files<cr>
 nnoremap <leader>gg <cmd>Neogit<cr>
@@ -102,13 +126,30 @@ nnoremap } <cmd>BufferLineCycleNext<CR>
 nnoremap { <cmd>BufferLineCyclePrev<CR>
 
 " These commands will move the current buffer backwards or forwards in the bufferline
-nnoremap <leader>l <cmd>BufferLineMoveNext<CR>
-nnoremap <leader>h <cmd>BufferLineMovePrev<CR>
+nnoremap <space>l <cmd>BufferLineMoveNext<CR>
+nnoremap <space>h <cmd>BufferLineMovePrev<CR>
+
+nnoremap ;l <cmd>CHADopen<cr>
+nnoremap ;c <cmd>Telescope colorscheme<cr>
+nnoremap ;t <cmd>terminal<cr>
+nnoremap ;v <cmd>e $MYVIMRC<cr>
 
 " These commands will sort buffers by directory, language, or a custom criteria
 nnoremap <leader>le :BufferLineSortByExtension<CR>
 nnoremap <leader>ld :BufferLineSortByDirectory<CR>
 nnoremap <leader>bs :lua require'bufferline'.sort_buffers_by(function (buf_a, buf_b) return buf_a.id < buf_b.id end)<CR>
-nnoremap <leader>bd :bd<cr>
+nnoremap <silent>;d :bd<cr>
+map <C-Up> :move '<-2<cr>gv-gv
+map <C-Down> :move '>+1<cr>gv-gv
+
+nnoremap <C-S-Up> <cmd>resize -2<cr>
+nnoremap <C-S-Down> <cmd>resize +2<cr>
+nnoremap <C-S-Left> <cmd>vertical resize -2<cr>
+nnoremap <C-S-Right> <cmd>vertical resize +2<cr>
+
 " }}}
-" let v:insertmode				       = '<C-i>'
+" Custom Syntax Highlightings {{{
+autocmd BufRead,BufNewFile *.slug set filetype=slug
+
+" }}}
+" let v:insertmode				       = i>'
