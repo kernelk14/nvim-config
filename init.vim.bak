@@ -9,7 +9,7 @@ set autoindent
 set nohlsearch
 filetype indent on
 set cursorline
-colorscheme onehalfdark
+colorscheme material
 set foldmarker={{{,}}}
 set expandtab
 " }}}
@@ -28,7 +28,10 @@ Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-sensible'
 Plug 'junegunn/seoul256.vim'
 Plug 'sainnhe/sonokai'
+Plug 'marko-cerovac/material.nvim'
 Plug 'gruvbox-community/gruvbox'
+" Plug 'kaicataldo/material.vim', { 'branch': 'main' }
+Plug 'phha/zenburn.nvim'
 Plug 'Iron-E/nvim-libmodal'
 Plug 'Iron-E/nvim-marktext'
 Plug 'plasticboy/vim-markdown'
@@ -97,7 +100,8 @@ set foldmethod=marker
 set nofoldenable
 set foldlevel=1
 let g:multi_cursor_use_default_mapping=0
-
+let g:material_terminal_italics = 1
+let g:material_style = 'deep ocean'
 " Default mapping
 let g:multi_cursor_start_word_key      = '<C-n>'
 let g:multi_cursor_select_all_word_key = '<A-n>'
