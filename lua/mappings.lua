@@ -17,7 +17,7 @@ nnoremap("{", "<cmd>BufferLineCyclePrev<CR>")
 nnoremap("<space>l", "<cmd>BufferLineMoveNext<CR>")
 nnoremap("<space>h", "<cmd>BufferLineMovePrev<CR>")
 
-nnoremap(";l", "<cmd>CHADopen<cr>")
+nnoremap(";l", "<cmd>NvimTreeToggle<cr>")
 nnoremap(";c", "<cmd>Telescope colorscheme<cr>")
 nnoremap(";t", "<cmd>terminal<cr>")
 nnoremap(";v", "<cmd>e $MYVIMRC<cr>")
@@ -32,5 +32,6 @@ nnoremap("<C-S-Up>", "<cmd>resize -2<cr>")
 nnoremap("<C-S-Down>", "<cmd>resize +2<cr>")
 nnoremap("<C-S-Left>", "<cmd>vertical resize -2<cr>")
 nnoremap("<C-S-Right>", "<cmd>vertical resize +2<cr>")
-
+inoremap("<expr> <C-f>", 'lua vim.cmd "coc#pum#visible() ? coc#pum#confirm()"')
+-- inoremap("<expr> <C-f>", 'coc#pum#visible() ? coc#pum#confirm() : "<cr>"')
 
